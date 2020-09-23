@@ -1,26 +1,40 @@
 package pl.coderslab.controller;
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Book {
-    private Long id = 0L;
+    private static final Logger log = LogManager.getLogger(Book.class);
+    //private static Long nextId = 1L;
+    private Long id;
     private String isbn;
     private String title;
     private String author;
     private String publisher;
     private String type;
     
-    public Book(String isbn, String title, String author, String publisher, String type) {
-        this.id = id++;
+    public Book(Long id,String isbn, String title, String author, String publisher, String type) {
+        //this.id = nextId;
+        this.id = id;
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
         this.type = type;
+        //nextId++;
+        log.info("Book id={} created",id);
     }
+    public Book(){}
+    
     
     public Long getId() {
         return id;
     }
     
+    public void setId(Long id) {
+        this.id = id;
+    }
     
     public String getIsbn() {
         return isbn;
