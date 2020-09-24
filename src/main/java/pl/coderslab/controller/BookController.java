@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/books")
@@ -33,7 +34,7 @@ public class BookController {
     
     // Get by id
     @GetMapping("/{id}")
-    public Book bookById(@PathVariable Long id) {
+    public Optional<Book> bookById(@PathVariable Long id) {
         log.info("Book id={}", id);
         return bookService.bookById(id);
     }
@@ -46,7 +47,7 @@ public class BookController {
     }
     
     @PutMapping("/{id}")
-    Book replaceBook(@RequestBody Book newBook, @PathVariable Long id) {
+    Optional<Book> replaceBook(@RequestBody Book newBook, @PathVariable Long id) {
 
         return bookService.bookById(id);
 //                .map(book -> {

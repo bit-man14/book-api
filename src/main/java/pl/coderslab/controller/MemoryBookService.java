@@ -1,5 +1,6 @@
 package pl.coderslab.controller;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalLong;
+
 
 @Component
 public class MemoryBookService implements BookService {
@@ -29,9 +31,9 @@ public class MemoryBookService implements BookService {
     }
     
     //GET /books/{id}   OK
-    public Book bookById(Long id) {
+    public Optional<Book> bookById(Long id) {
         log.info("Searching for book id={}", id);
-        return (Book) books.stream().filter(e -> e.getId().equals(id));
+        return books.stream().filter(e -> e.getId().equals(id)).findFirst();
     }
     
     
@@ -44,8 +46,9 @@ public class MemoryBookService implements BookService {
         books.add(book);
     }
     
-  //DELETE /books/{id}  OK
+    //DELETE /books/{id}  OK
     public void deleteById(Long id) {
+        
         Optional<Book> bookToDelete = books.stream()
                 .filter(e -> e.getId().equals(id)).findFirst();
         log.info("Book to delete:", bookToDelete);
@@ -58,6 +61,11 @@ public class MemoryBookService implements BookService {
     public void update(Book book, Long id) {
         Optional<Book> bookToUpdate = books.stream()
                 .filter(e -> e.getId().equals(id)).findFirst();
+        if (!bookToUpdate.isEmpty()) {
+            int indexOf = books.indexOf(this.bookById(id));
+            book.setId(id);
+            books.set(indexOf, book);
+        }
         
     }
     
