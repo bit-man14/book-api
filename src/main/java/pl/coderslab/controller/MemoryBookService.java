@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.OptionalLong;
-import java.util.stream.Collectors;
 
 @Component
-public class MemoryBookService implements BookService{
+public class MemoryBookService implements BookService {
     private static final Logger log = LogManager.getLogger(MemoryBookService.class);
     private List<Book> books;
     
@@ -29,19 +29,37 @@ public class MemoryBookService implements BookService{
     }
     
     //GET /books/{id}   OK
-    public List<Book> bookById(Long id) {
-        log.info("Searching for book id={}",id);
-        return books.stream().filter(e -> e.getId().equals(id)).collect(Collectors.toList());
+    public Book bookById(Long id) {
+        log.info("Searching for book id={}", id);
+        return (Book) books.stream().filter(e -> e.getId().equals(id));
     }
-   
     
-    //POST /books
+    
+    //POST /books   OK
     public void addBook(Book book) {
-        log.info("Creating new JSON book via POST");
+        log.info("Creating new  book via POST-JSON");
         OptionalLong maxId = books.stream().mapToLong(Book::getId).max();
-        Long nextId=maxId.getAsLong()+1;
+        Long nextId = maxId.getAsLong() + 1;
         book.setId(nextId);
         books.add(book);
     }
-
+    
+  //DELETE /books/{id}  OK
+    public void deleteById(Long id) {
+        Optional<Book> bookToDelete = books.stream()
+                .filter(e -> e.getId().equals(id)).findFirst();
+        log.info("Book to delete:", bookToDelete);
+        if (!bookToDelete.isEmpty()) {
+            books.remove(bookToDelete.get());
+        }
+    }
+    
+    //PUT - update existing book
+    public void update(Book book, Long id) {
+        Optional<Book> bookToUpdate = books.stream()
+                .filter(e -> e.getId().equals(id)).findFirst();
+        
+    }
+    
+    
 }

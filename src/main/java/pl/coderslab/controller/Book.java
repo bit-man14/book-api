@@ -23,7 +23,7 @@ public class Book {
         this.publisher = publisher;
         this.type = type;
         //nextId++;
-        log.info("Book id={} created",id);
+        //log.info("Book id={} created",id);
     }
     public Book(){}
     
