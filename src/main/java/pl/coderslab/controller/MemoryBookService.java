@@ -66,9 +66,6 @@ public class MemoryBookService implements BookService {
             
             books.set(indexOf, book);
         }
-    
         return bookToUpdate;
     }
-    
-    
 }

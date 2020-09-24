@@ -1,14 +1,10 @@
 package pl.coderslab.app;
 
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import pl.coderslab.config.AppConfig;
 
 public class AppInitializer extends
         AbstractAnnotationConfigDispatcherServletInitializer {
-    //private static final Logger log = LogManager.getLogger(AppInitializer.class);
     
     @Override
     protected Class<?>[] getRootConfigClasses() {
@@ -22,7 +18,6 @@ public class AppInitializer extends
     
     @Override
     protected String[] getServletMappings() {
-        //log.info("App started");
         return new String[]{"/"};
     }
 }

@@ -8,7 +8,9 @@ import java.util.Optional;
 @Component
 public interface BookService {
     List<Book> allBooks();
+    
     Optional<Book> bookById(Long id);
+    
     void addBook(Book book);
     
     void deleteById(Long id);
