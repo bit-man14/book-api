@@ -25,7 +25,7 @@ public class BookController {
         this.bookService = bookService;
     }
     
-    // Get All
+    // Get all books
     @GetMapping("")
     public @ResponseBody
     List<Book> getListofBooks() {
@@ -46,21 +46,15 @@ public class BookController {
         bookService.addBook(newBook);
     }
     
+    //PUT - update book {id} with new data
     @PutMapping("/{id}")
     Optional<Book> replaceBook(@RequestBody Book newBook, @PathVariable Long id) {
-
-        return bookService.bookById(id);
-//                .map(book -> {
-//                    book.setIsbn(newBook.getIsbn());
-//                    //book.setRole(newBook.getRole());
-//                    return bookService.update(book,id);
-//                })
-//                .orElseGet(() -> {
-//                    newBook.setId(id);
-//                    return bookService.update(newBook);
-//                });
+        
+        return bookService.update(newBook, id);
+        
     }
-
+    
+    //delete book{id}
     @DeleteMapping("/{id}")
     void deleteBook(@PathVariable Long id) {
         bookService.deleteById(id);

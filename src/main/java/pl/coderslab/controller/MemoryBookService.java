@@ -1,6 +1,5 @@
 package pl.coderslab.controller;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -58,15 +57,17 @@ public class MemoryBookService implements BookService {
     }
     
     //PUT - update existing book
-    public void update(Book book, Long id) {
+    public Optional<Book> update(Book book, Long id) {
         Optional<Book> bookToUpdate = books.stream()
                 .filter(e -> e.getId().equals(id)).findFirst();
         if (!bookToUpdate.isEmpty()) {
-            int indexOf = books.indexOf(this.bookById(id));
             book.setId(id);
+            int indexOf = books.indexOf(this.bookById(id).get());
+            
             books.set(indexOf, book);
         }
-        
+    
+        return bookToUpdate;
     }
     
     

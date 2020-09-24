@@ -13,5 +13,5 @@ public interface BookService {
     
     void deleteById(Long id);
     
-    void update(Book book,Long id);
+    Optional<Book> update(Book book, Long id);
 }
