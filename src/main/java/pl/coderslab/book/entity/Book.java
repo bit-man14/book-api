@@ -34,7 +34,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ISBN
+    //@ISBN
     private String isbn;
     @NotBlank
     @Size(min = 2)

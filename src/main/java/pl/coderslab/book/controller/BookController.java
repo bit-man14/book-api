@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,7 @@ public class BookController {
         log.info("GET - all");
         return "list";
     }
-    
+
 
 //    @GetMapping("/addBook")
 //    public String showFormForAdd(Model theModel) {
@@ -61,39 +62,45 @@ public class BookController {
     }
     
     @PostMapping("/saveBook")
-    public String add(@Valid Book newBook, BindingResult bindingResult) {
+    public String add(@ModelAttribute("book") Book newBook, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "add";
         }
         bookService.saveBook(newBook);
         return "redirect:/books/list";
     }
-    
+//    @PostMapping("/saveCustomer")
+//    public String saveCustomer(@ModelAttribute("customer") Customer theCustomer) {
+//        customerService.saveCustomer(theCustomer);
+//        return "redirect:/customer/list";
+//    }
     //display form with data id...
-    @GetMapping("/editBook/{id}")
-    public String editBookForm(@PathVariable Long id, @Valid Model model) throws ResourceNotFoundException{
+    @GetMapping("/editBook")
+    public String editBookForm(@RequestParam("bookId") Long id, @Valid Model model) throws ResourceNotFoundException {
         Book book = bookService.getBook(id);
         model.addAttribute("book", book);
         return "add";
     }
-   
-//
-//    @PostMapping("/editBook/{id}")
-//    public String editBook(Book newBook, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            return "add";
-//        }
-//        bookRepository.save(newBook);
-//        return "redirect:/books/tables";
+    //ex
+//    @GetMapping("/updateForm")
+//    public String showFormForUpdate(@RequestParam("customerId") int theId,
+//                                    Model theModel) throws ResourceNotFoundException {
+//        Customer theCustomer = customerService.getCustomer(theId);
+//        theModel.addAttribute("customer", theCustomer);
+//        return "customer-form";
 //    }
     
-    
-    @GetMapping("/deleteById/{id}")
-    public String delete(@PathVariable Long id) {
+    @GetMapping("/deleteById")
+    public String delete(@RequestParam("bookId") Long id) {
         bookService.deleteBook(id);
         return "redirect:/books/list";
     }
-    
+    //ex
+//    @GetMapping("/delete")
+//    public String deleteCustomer(@RequestParam("customerId") int theId) throws ResourceNotFoundException {
+//        customerService.deleteCustomer(theId);
+//        return "redirect:/customer/list";
+//    }
     @GetMapping("/confirm/{id}")
     public String confirmDel(@PathVariable Long id, Model model) {
         model.addAttribute("id", id);
