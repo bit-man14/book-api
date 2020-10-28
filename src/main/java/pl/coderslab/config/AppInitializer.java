@@ -1,21 +1,19 @@
-package pl.coderslab.app;
+package pl.coderslab.config;
 
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import pl.coderslab.config.AppConfig;
 
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 public class AppInitializer extends
         AbstractAnnotationConfigDispatcherServletInitializer {
     
     @Override
-    public void onStartup(ServletContext container) throws ServletException {
+    public void onStartup(ServletContext container) {
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
         ctx.register(AppConfig.class);
         ctx.setServletContext(container);
@@ -29,7 +27,7 @@ public class AppInitializer extends
     }
     
     @Override
-    protected String[] getServletMappings() {
+    protected String [] getServletMappings() {
         return new String[0];
     }
     

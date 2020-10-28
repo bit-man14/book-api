@@ -1,11 +1,14 @@
-package pl.coderslab.book.model;
+package pl.coderslab.book.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.validator.constraints.ISBN;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -21,6 +26,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Entity
+@ToString
 @Table(name = "books")
 public class Book {
     private static final Logger log = LogManager.getLogger(Book.class);
@@ -28,8 +34,13 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ISBN
     private String isbn;
+    @NotBlank
+    @Size(min = 2)
     private String title;
+    @NotBlank
+    @Size(min = 2)
     private String author;
     private String publisher;
     private String type;
